@@ -1,29 +1,78 @@
 <!doctype html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#070707">
   <meta name="description" content="VISSIØN regresa el 3 de octubre de 2026.">
   <title>RESERVE — Tremor × Magna × Vission</title>
+  <script>document.documentElement.classList.add("js");</script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
+
+<body class="is-loading">
+  <div class="signal-loader" aria-live="polite" aria-label="Cargando la señal">
+    <div class="signal-loader__content">
+      <p class="signal-loader__eyebrow">VISSIØN // TRANSMISIÓN 03.10.26</p>
+      <p class="signal-loader__status">BUSCANDO SEÑAL<span class="signal-loader__dots" aria-hidden="true"></span></p>
+      <div class="signal-loader__track" aria-hidden="true"><span class="signal-loader__progress"></span></div>
+      <p class="signal-loader__percentage" aria-hidden="true">CONECTANDO</p>
+    </div>
+  </div>
   <main class="page">
     <article class="poster" aria-label="Anuncio de regreso de Vission">
       <div class="background" aria-hidden="true"><img src="assets/bg.jpg" alt=""></div>
       <div class="content">
-        <p class="tag">SEÑAL RESTAURADA // 1111111111 // 03-10</p><p class="line">11 meses en pausa.</p><p class="line">11 meses en silencio.</p><p class="line spaced small">Y durante todo ese tiempo,<br>una sola idea siguió apareciendo:</p>
-        <div class="shout" data-txt="HAY QUE VOLVER.">HAY QUE VOLVER.</div><p class="line">El 3 de octubre, Vission regresa.</p><p class="brandline">TREMOR <span class="x">×</span> MAGNA <span class="x">×</span> VISSIØN</p><p class="line small">vuelven a activar la señal.</p><p class="line spaced">Después de 11 meses,<br>el silencio termina.</p><p class="line spaced small">Un lineup que no se anuncia dos veces.<br>Un espacio que tampoco se repite.</p>
-        <div class="shout shout--active" data-txt="LA SEÑAL ESTÁ ACTIVA.">LA SEÑAL ESTÁ ACTIVA.</div><div class="question">¿La vas a seguir?</div><div class="caps">CUPO LIMITADO.<br>NO HAY REVENTA DE ENTRADAS.</div><div class="divider"></div>
-        <div class="rules">NOS RESERVAMOS EL DERECHO DE ADMISIÓN.<strong>No toleramos ningún acto de acoso.</strong>Por favor, cuídate y cuida de los demás. Si observas un comportamiento inapropiado, comunícate con nuestro equipo de seguridad:</div><div class="contacts">@ghostki0313 &nbsp;&nbsp;@gloomy_boy17&nbsp;&nbsp;@maths_jcs</div><div class="divider"></div>
-        <div class="savedate"><div class="savedate-label">SAVE THE DATE</div><div class="savedate-num">03.10.26</div></div><div class="location"><div class="location-label">LOCATION</div><a class="location-link" href="#location" aria-label="Ubicación próximamente">SCAN / CLICK HERE</a></div>
+        <p class="tag">SEÑAL RESTAURADA // 1111111111 // 03-10</p>
+        <p class="line">11 meses en pausa.</p>
+        <p class="line">11 meses en silencio.</p>
+        <p class="line spaced small">Y durante todo ese tiempo,<br>una sola idea siguió apareciendo:</p>
+        <div class="shout" data-txt="HAY QUE VOLVER.">HAY QUE VOLVER.</div>
+        <p class="line">El 3 de octubre, Vission regresa.</p>
+        <p class="brandline">TREMOR <span class="x">×</span> MAGNA <span class="x">×</span> VISSIØN</p>
+        <p class="line small">vuelven a activar la señal.</p>
+        <p class="line spaced">Después de 11 meses,<br>el silencio termina.</p>
+        <p class="line spaced small">Un lineup que no se anuncia dos veces.<br>Un espacio que tampoco se repite.</p>
+        <div class="shout shout--active" data-txt="LA SEÑAL ESTÁ ACTIVA.">LA SEÑAL ESTÁ ACTIVA.</div>
+        <div class="question">¿La vas a seguir?</div>
+        <div class="caps">CUPO LIMITADO.<br>NO HAY REVENTA DE ENTRADAS.</div>
+        <div class="divider"></div>
+        <div class="rules">NOS RESERVAMOS EL DERECHO DE ADMISIÓN.<strong>No toleramos ningún acto de acoso.</strong>Por
+          favor, cuídate y cuida de los demás. Si observas un comportamiento inapropiado, comunícate con nuestro equipo
+          de seguridad:</div>
+        <div class="contacts">@ghostki0313 &nbsp;&nbsp;@gloomy_boy17&nbsp;&nbsp;@maths_jcs</div>
+        <div class="divider"></div>
+        <div class="savedate">
+          <div class="savedate-label">SAVE THE DATE</div>
+          <div class="savedate-num">03.10.26</div>
+        </div>
+        <div class="location">
+          <div class="location-label">LOCATION</div><a class="location-link" href="#location"
+            aria-label="Ubicación próximamente">SCAN / CLICK HERE</a>
+        </div>
       </div>
     </article>
     <p class="caption">VISSIØN RESERVE — señal activa.</p>
   </main>
+  <script>
+    window.addEventListener("load", () => {
+      window.setTimeout(() => {
+        document.body.classList.add("signal-found");
+        document.querySelector(".signal-loader__status").textContent = "SEÑAL ACTIVA";
+        document.querySelector(".signal-loader__percentage").textContent = "CONEXIÓN ESTABLECIDA";
+
+        window.setTimeout(() => {
+          document.body.classList.remove("is-loading");
+          document.body.classList.add("is-ready");
+        }, 500);
+      }, 2600);
+    });
+  </script>
 </body>
+
 </html>

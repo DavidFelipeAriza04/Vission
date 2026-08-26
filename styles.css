@@ -19,6 +19,95 @@ body {
     font-family: "JetBrains Mono", ui-monospace, monospace;
 }
 
+.signal-loader {
+    position: fixed;
+    z-index: 10;
+    display: grid;
+    width: 100%;
+    min-height: 100vh;
+    place-items: center;
+    padding: 24px;
+    background: #070707;
+    color: #e9e9e6;
+    transition: opacity 1s ease, visibility 1s step-end;
+}
+
+.signal-loader__content {
+    width: min(100%, 360px);
+}
+
+.signal-loader__eyebrow,
+.signal-loader__percentage {
+    margin: 0;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .16em;
+    line-height: 1.5;
+}
+
+.signal-loader__status {
+    margin: 16px 0 14px;
+    font-size: clamp(17px, 5vw, 22px);
+    font-weight: 800;
+    letter-spacing: .04em;
+    line-height: 1.2;
+}
+
+.signal-loader__dots::after {
+    content: "...";
+    animation: loading-dots 1s steps(4, end) infinite;
+}
+
+.signal-loader__track {
+    height: 2px;
+    overflow: hidden;
+    background: rgba(233, 233, 230, .22);
+}
+
+.signal-loader__progress {
+    display: block;
+    width: 0;
+    height: 100%;
+    background: #e9e9e6;
+    animation: find-signal 2s cubic-bezier(.3, .1, .2, 1) 600ms both;
+}
+
+.signal-loader__percentage {
+    margin-top: 10px;
+    color: #9b9b98;
+}
+
+.js body.is-loading {
+    overflow: hidden;
+}
+
+.js body.is-loading .signal-loader {
+    animation: loader-fade-in 1s ease both;
+}
+
+.js body.is-loading .page {
+    opacity: 0;
+    transform: translateY(12px);
+}
+
+.js .page {
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+.js body.signal-found .signal-loader__progress {
+    width: 100%;
+    animation: none;
+}
+
+.js body.signal-found .signal-loader__percentage {
+    color: #e9e9e6;
+}
+
+.js body.is-ready .signal-loader {
+    visibility: hidden;
+    opacity: 0;
+}
+
 .page {
     display: grid;
     min-height: 100vh;
@@ -151,6 +240,7 @@ body {
     letter-spacing: .01em;
     line-height: 1.13;
     text-transform: uppercase;
+    animation: signal-glitch 7s steps(1, end) infinite;
 }
 
 .shout--active {
@@ -171,11 +261,13 @@ body {
 .shout::before {
     color: rgba(200, 0, 0, .48);
     transform: translateX(2px);
+    animation: signal-glitch-red 7s steps(1, end) infinite;
 }
 
 .shout::after {
     color: rgba(0, 160, 180, .42);
     transform: translateX(-2px);
+    animation: signal-glitch-cyan 7s steps(1, end) infinite;
 }
 
 .brandline {
@@ -295,10 +387,57 @@ body {
     }
 }
 
+@keyframes loader-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 @keyframes blink {
     50% {
         opacity: .15;
     }
+}
+
+@keyframes find-signal {
+    0% { width: 0; }
+    52% { width: 64%; }
+    75% { width: 77%; }
+    100% { width: 91%; }
+}
+
+@keyframes loading-dots {
+    0% { content: ""; }
+    25% { content: "."; }
+    50% { content: ".."; }
+    75%, 100% { content: "..."; }
+}
+
+@keyframes signal-glitch {
+    0%, 84%, 100% { transform: none; }
+    85% { transform: translateX(-2px) skewX(-2deg); }
+    86% { transform: translateX(3px) skewX(3deg); }
+    87% { transform: translateX(-1px); }
+    88% { transform: none; }
+    94% { transform: translateX(2px) skewX(-1deg); }
+    95% { transform: none; }
+}
+
+@keyframes signal-glitch-red {
+    0%, 84%, 100% { transform: translateX(2px); clip-path: inset(0); }
+    85% { transform: translate(6px, -1px); clip-path: inset(16% 0 62% 0); }
+    86% { transform: translate(-4px, 1px); clip-path: inset(67% 0 8% 0); }
+    87%, 88% { transform: translateX(2px); clip-path: inset(0); }
+    94% { transform: translateX(5px); clip-path: inset(42% 0 35% 0); }
+    95% { transform: translateX(2px); clip-path: inset(0); }
+}
+
+@keyframes signal-glitch-cyan {
+    0%, 84%, 100% { transform: translateX(-2px); clip-path: inset(0); }
+    85% { transform: translate(-6px, 1px); clip-path: inset(58% 0 14% 0); }
+    86% { transform: translate(4px, -1px); clip-path: inset(8% 0 70% 0); }
+    87%, 88% { transform: translateX(-2px); clip-path: inset(0); }
+    94% { transform: translateX(-5px); clip-path: inset(25% 0 52% 0); }
+    95% { transform: translateX(-2px); clip-path: inset(0); }
 }
 
 @media (max-width: 500px) {
@@ -322,4 +461,9 @@ body {
         animation-duration: .01ms !important;
         animation-iteration-count: 1 !important;
     }
+
+    .js body.is-loading .page {
+        transform: none;
+        transition: opacity 700ms ease, visibility 700ms step-end;
+}
 }
