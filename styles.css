@@ -261,13 +261,15 @@ body {
 .shout::before {
     color: rgba(200, 0, 0, .48);
     transform: translateX(2px);
-    animation: signal-glitch-red 7s steps(1, end) infinite;
+    animation: signal-glitch-red 3s steps(1, end) infinite;
+    -webkit-animation: signal-glitch-red 3s steps(1, end) infinite;
 }
 
 .shout::after {
     color: rgba(0, 160, 180, .42);
     transform: translateX(-2px);
-    animation: signal-glitch-cyan 7s steps(1, end) infinite;
+    animation: signal-glitch-cyan 3s steps(1, end) infinite;
+    -webkit-animation: signal-glitch-cyan 3s steps(1, end) infinite;
 }
 
 .brandline {
@@ -351,6 +353,47 @@ body {
     margin-top: 27px;
     padding-top: 20px;
     text-align: center;
+}
+
+.location-address {
+    margin: 10px 0 14px;
+    color: #252525;
+    font-size: clamp(9px, 2.8vw, 11px);
+    font-weight: 700;
+    letter-spacing: .05em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    filter: blur(5px);
+    transition: filter .5s ease;
+    user-select: none;
+}
+
+.location.is-revealed .location-address {
+    filter: none;
+    user-select: text;
+}
+
+.map-frame {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .35);
+    background: #c8c8c3;
+}
+
+.map-frame iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    filter: grayscale(1) blur(5px);
+    transform: scale(1.04);
+    transition: filter .5s ease, transform .5s ease;
+}
+
+.location.is-revealed .map-frame iframe {
+    filter: grayscale(1);
+    transform: scale(1);
 }
 
 .location-link {

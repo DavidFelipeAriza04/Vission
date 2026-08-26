@@ -51,15 +51,41 @@
           <div class="savedate-label">SAVE THE DATE</div>
           <div class="savedate-num">03.10.26</div>
         </div>
-        <div class="location">
-          <div class="location-label">LOCATION</div><a class="location-link" href="#location"
-            aria-label="Ubicación próximamente">SCAN / CLICK HERE</a>
+        <div class="location" id="location" data-address="Direccion">
+          <div class="location-label">LOCATION</div>
+          <p class="location-address"> Direccion</p>
+          <div class="map-frame">
+            <iframe title="Mapa de la ubicación del evento" loading="lazy" allowfullscreen
+              referrerpolicy="no-referrer-when-downgrade"></iframe>
+          </div>
+          <a class="location-link" href="#location" aria-label="Abrir el mapa de la ubicación">SCAN / CLICK HERE</a>
         </div>
       </div>
     </article>
     <p class="caption">VISSIØN RESERVE — señal activa.</p>
   </main>
   <script>
+    const locationSection = document.querySelector(".location");
+    const address = locationSection.dataset.address;
+    const encodedAddress = encodeURIComponent(address);
+    const map = locationSection.querySelector("iframe");
+    const addressLabel = locationSection.querySelector(".location-address");
+    const locationLink = locationSection.querySelector(".location-link");
+
+    map.src = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
+    // locationLink.href = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+    // locationLink.target = "_blank";
+    locationLink.rel = "noopener noreferrer";
+
+    if (address !== "Direccion") {
+      addressLabel.textContent = address;
+    }
+
+    locationLink.addEventListener("click", () => {
+      locationSection.classList.add("is-revealed");
+      locationLink.setAttribute("aria-label", `Abrir el mapa de ${address}`);
+    });
+
     window.addEventListener("load", () => {
       window.setTimeout(() => {
         document.body.classList.add("signal-found");
