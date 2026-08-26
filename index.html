@@ -84,6 +84,27 @@
       locationLink.setAttribute("aria-label", "Mapa visible");
     });
 
+    const revealItems = document.querySelectorAll(
+      ".content > .tag, .content > .line, .content > .shout, .content > .brandline, .content > .question, .content > .caps, .content > .rules, .content > .contacts, .content > .savedate, .content > .location"
+    );
+
+    revealItems.forEach((item, index) => {
+      item.classList.add("reveal-item");
+      item.style.setProperty("--reveal-delay", `${Math.min(index * 45, 270)}ms`);
+    });
+
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+        } else {
+          entry.target.classList.remove("is-visible");
+        }
+      });
+    }, { threshold: 0.14, rootMargin: "0px 0px -8%" });
+
+    revealItems.forEach((item) => revealObserver.observe(item));
+
     window.addEventListener("load", () => {
       window.setTimeout(() => {
         document.body.classList.add("signal-found");

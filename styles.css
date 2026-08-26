@@ -193,6 +193,17 @@ body {
     padding: clamp(32px, 8vw, 48px) clamp(22px, 6.5vw, 32px) clamp(36px, 9vw, 52px);
 }
 
+.js .reveal-item {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .7s ease var(--reveal-delay, 0ms), transform .7s ease var(--reveal-delay, 0ms);
+}
+
+.js .reveal-item.is-visible {
+    opacity: 1;
+    transform: none;
+}
+
 .tag {
     display: flex;
     align-items: center;
@@ -509,4 +520,10 @@ body {
         transform: none;
         transition: opacity 700ms ease, visibility 700ms step-end;
 }
+
+    .js .reveal-item {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
 }
