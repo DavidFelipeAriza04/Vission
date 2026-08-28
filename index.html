@@ -103,8 +103,6 @@
       });
     }, { threshold: 0.14, rootMargin: "0px 0px -8%" });
 
-    revealItems.forEach((item) => revealObserver.observe(item));
-
     window.addEventListener("load", () => {
       window.setTimeout(() => {
         document.body.classList.add("signal-found");
@@ -114,6 +112,10 @@
         window.setTimeout(() => {
           document.body.classList.remove("is-loading");
           document.body.classList.add("is-ready");
+
+          window.requestAnimationFrame(() => {
+            revealItems.forEach((item) => revealObserver.observe(item));
+          });
         }, 500);
       }, 2600);
     });
