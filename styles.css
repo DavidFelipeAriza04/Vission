@@ -151,13 +151,16 @@ body {
     overflow: hidden;
 }
 
-.background img {
+.background video {
+    position: absolute;
+    inset: 0;
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
     object-position: center 20%;
     opacity: .54;
-    filter: invert(1) contrast(1.35) brightness(1.08) saturate(2) hue-rotate(180deg);
+    /* filter: invert(1) contrast(1.35) brightness(1.08) saturate(2) hue-rotate(180deg); */
     transform: scale(1.06);
     animation: breathe 12s ease-in-out infinite alternate;
 }
@@ -172,17 +175,13 @@ body {
     mix-blend-mode: screen;
 }
 
-.background::before {
-    background: url("assets/bg.jpg") center 20% / cover;
-    filter: sepia(1) saturate(8) hue-rotate(-38deg) contrast(1.4);
-    transform: translate(4px, -1px) scale(1.06);
+/* .background::before {
+    background: linear-gradient(115deg, rgba(200, 30, 30, .14), transparent 42%);
 }
 
 .background::after {
-    background: url("assets/bg.jpg") center 20% / cover;
-    filter: sepia(1) saturate(8) hue-rotate(160deg) contrast(1.4);
-    transform: translate(-4px, 1px) scale(1.06);
-}
+    background: linear-gradient(245deg, rgba(0, 160, 180, .12), transparent 42%);
+} */
 
 .content {
     position: relative;
