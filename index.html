@@ -64,9 +64,9 @@
           <div class="savedate-label">SAVE THE DATE</div>
           <div class="savedate-num">03.10.26</div>
         </div>
-        <div class="location" id="location" data-address="Direccion">
+        <div class="location" id="location" data-address="Calle 48#6-14">
           <div class="location-label">LOCATION</div>
-          <p class="location-address"> Direccion</p>
+          <p class="location-address"> Calle 48#6-14, Espacio en Blanco</p>
           <div class="map-frame">
             <iframe title="Mapa de la ubicación del evento" loading="lazy" allowfullscreen
               referrerpolicy="no-referrer-when-downgrade"></iframe>
@@ -87,8 +87,8 @@
 
     map.src = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
 
-    if (address !== "Direccion") {
-      addressLabel.textContent = address;
+    if (address !== "Calle 48#6-14") {
+      addressLabel.textContent = address + ", Espacio en Blanco";
     }
 
     locationLink.addEventListener("click", (event) => {
@@ -130,6 +130,26 @@
       });
     };
 
+    const hackCharacter = (character) => {
+      const original = character.textContent;
+      const symbols = "01#$%&?<>/\\|";
+      let cycles = 0;
+
+      character.classList.add("is-hacking");
+
+      const scramble = window.setInterval(() => {
+        character.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        cycles += 1;
+
+        if (cycles >= 5) {
+          window.clearInterval(scramble);
+          character.textContent = original;
+          character.classList.remove("is-hacking");
+          character.classList.add("is-typed");
+        }
+      }, 55);
+    };
+
     revealItems.forEach((item) => {
       item.classList.add("reveal-item");
       splitIntoCharacters(item);
@@ -153,10 +173,11 @@
         window.setTimeout(() => item.classList.add("is-visible"), blockDelay);
 
         characters.forEach((character, characterIndex) => {
-          window.setTimeout(() => character.classList.add("is-typed"), blockDelay + characterIndex * 22);
+          const characterDelay = blockDelay + characterIndex * 32;
+          window.setTimeout(() => hackCharacter(character), characterDelay);
         });
 
-        sequenceDelay += Math.max(characters.length * 22 + 180, 280);
+        sequenceDelay += Math.max(characters.length * 32 + 220, 340);
       });
     };
 

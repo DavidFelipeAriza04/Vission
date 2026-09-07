@@ -206,7 +206,7 @@ body {
 .js .reveal-item .char {
     display: inline;
     opacity: 0;
-    transition: opacity .08s steps(1, end);
+    transition: opacity .12s steps(1, end);
 }
 
 .js .reveal-item .char-sequence {
@@ -220,6 +220,12 @@ body {
 
 .js .reveal-item .char.is-typed {
     opacity: 1;
+}
+
+.js .reveal-item .char.is-hacking {
+    color: #c81e1e;
+    opacity: 1;
+    text-shadow: 2px 0 rgba(0, 160, 180, .7);
 }
 
 .tag {
