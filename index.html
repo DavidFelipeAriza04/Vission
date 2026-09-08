@@ -29,10 +29,13 @@
   <main class="page">
     <article class="poster" aria-label="Anuncio de regreso de Vission">
       <div class="background" aria-hidden="true">
-        <video autoplay muted loop playsinline preload="auto" poster="assets/bg.jpg" aria-hidden="true">
+        <video autoplay muted loop playsinline webkit-playsinline preload="auto" poster="assets/bg.jpg" aria-hidden="true">
           <source src="assets/Fondo.mp4" type="video/mp4">
         </video>
       </div>
+      <button type="button" class="sound-toggle" aria-label="Activar sonido" aria-pressed="false">
+        <i class="bi bi-volume-mute-fill" aria-hidden="true"></i>
+      </button>
       <div class="content">
         <p class="tag">SEÑAL RESTAURADA // 1111111111 // 03-10</p>
         <p class="line">11 meses en pausa.</p>
@@ -79,6 +82,100 @@
     <p class="caption">VISSIØN RESERVE — señal activa.</p>
   </main>
   <script>
+    const bgVideo = document.querySelector(".background video");
+
+    if (bgVideo) {
+      const tryPlay = () => {
+        const playPromise = bgVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((error) => {
+            // El navegador bloqueó el autoplay (modo ahorro de datos,
+            // bajo consumo, webview restrictivo, etc.). Lo reintentamos
+            // en cuanto haya una interacción o la pestaña vuelva a foco.
+            console.warn("Autoplay del fondo bloqueado, se reintentará:", error);
+          });
+        }
+      };
+
+      const updateSoundIcon = () => {
+        const soundToggle = document.querySelector(".sound-toggle");
+        if (!soundToggle) return;
+        const icon = soundToggle.querySelector("i");
+        if (bgVideo.muted) {
+          icon.className = "bi bi-volume-mute-fill";
+          soundToggle.setAttribute("aria-label", "Activar sonido");
+          soundToggle.setAttribute("aria-pressed", "false");
+        } else {
+          icon.className = "bi bi-volume-up-fill";
+          soundToggle.setAttribute("aria-label", "Silenciar");
+          soundToggle.setAttribute("aria-pressed", "true");
+        }
+      };
+
+      const tryPlayWithSound = () => {
+        bgVideo.muted = false;
+        const playPromise = bgVideo.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => updateSoundIcon())
+            .catch(() => {
+              // El navegador exige una interacción real del usuario antes
+              // de permitir sonido. Volvemos a silenciar para no romper
+              // el autoplay del video, y esperamos esa interacción.
+              bgVideo.muted = true;
+              updateSoundIcon();
+              tryPlay();
+            });
+        }
+      };
+
+      bgVideo.addEventListener("error", () => {
+        const mediaError = bgVideo.error;
+        console.error("No se pudo cargar el video de fondo.", mediaError);
+        document.querySelector(".background")?.classList.add("video-failed");
+      });
+
+      bgVideo.addEventListener("stalled", () => {
+        console.warn("Descarga del video de fondo estancada (red lenta).");
+      });
+
+      // Intento inicial: con sonido. Casi todos los navegadores lo bloquearán
+      // hasta que haya una interacción real del usuario.
+      tryPlayWithSound();
+
+      // Reintenta si el navegador pausó el video al cargar en segundo plano
+      // o por política de autoplay, y el usuario vuelve a la pestaña o interactúa.
+      document.addEventListener("visibilitychange", () => {
+        if (!document.hidden && bgVideo.paused) tryPlay();
+      });
+
+      // En cuanto el usuario haga cualquier interacción (tap, click, scroll,
+      // tecla), activamos el sonido automáticamente si seguía silenciado.
+      ["click", "touchstart", "keydown", "scroll"].forEach((eventName) => {
+        window.addEventListener(eventName, () => {
+          if (bgVideo.muted) {
+            tryPlayWithSound();
+          } else if (bgVideo.paused) {
+            tryPlay();
+          }
+        }, { once: true, passive: true });
+      });
+
+      // Botón de sonido: permite silenciar o reactivar manualmente en
+      // cualquier momento.
+      const soundToggle = document.querySelector(".sound-toggle");
+      if (soundToggle) {
+        soundToggle.addEventListener("click", () => {
+          if (bgVideo.muted) {
+            tryPlayWithSound();
+          } else {
+            bgVideo.muted = true;
+            updateSoundIcon();
+          }
+        });
+      }
+    }
+
     const locationSection = document.querySelector(".location");
     const address = locationSection.dataset.address;
     const encodedAddress = encodeURIComponent(address);
