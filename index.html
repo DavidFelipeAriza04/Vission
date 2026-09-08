@@ -65,7 +65,7 @@
           <div class="savedate-label">SAVE THE DATE</div>
           <div class="savedate-num">03.10.26</div>
         </div>
-        <div class="location" id="location" data-address="Calle 48#6-14">
+        <div class="location" id="location" data-address="Cl. 48 #6 - 14, Chapinero, Bogotá, Cundinamarca, Colombia">
           <div class="location-label">LOCATION</div>
           <p class="location-address"> Calle 48#6-14, Espacio en Blanco</p>
           <div class="map-frame">
@@ -88,9 +88,9 @@
 
     map.src = `https://www.google.com/maps?q=${encodedAddress}&output=embed`;
 
-    if (address !== "Calle 48#6-14") {
-      addressLabel.textContent = address + ", Espacio en Blanco";
-    }
+    // if (address !== "Calle 48#6-14") {
+    //   addressLabel.textContent = address + ", Espacio en Blanco";
+    // }
 
     locationLink.addEventListener("click", (event) => {
       event.preventDefault();
